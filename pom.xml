@@ -38,6 +38,11 @@
         <artifactId>tomcat-jsp-api</artifactId>
         <version>${tomcat.version}</version>
     </dependency>
+    <dependency>
+        <groupId>org.mybatis</groupId>
+         <artifactId>mybatis</artifactId>
+         <version>3.4.5</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>MatcherAPI</finalName>
