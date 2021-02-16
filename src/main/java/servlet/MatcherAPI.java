@@ -1,4 +1,4 @@
-package com.matcherapi.servlets;
+package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +15,12 @@ public class MatcherAPI extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    
+        response.setContentType("application/json");
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        try ( PrintWriter out = response.getWriter()) {
+
+            out.println("{status: '200', token:'AKSJDA98012IJDNAO8127HDABS',  }");
+        }
     }
 
 
