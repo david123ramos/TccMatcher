@@ -1,1 +1,2 @@
-com\matcherapi\servlets\MatcherAPI.class
+launch\Main.class
+servlet\MatcherAPI.class
