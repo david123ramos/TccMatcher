@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,12 +27,36 @@ public class MatcherAPI extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
 
             out.println("{status: '200', token:'AKSJDA98012IJDNAO8127HDABS',  }");
-            DatabaseConection.runMigrations();
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(MatcherAPI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(MatcherAPI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            String userId = request.getParameter("id");
+        
+            if(userId != null) {
+                System.out.println("ID DO USUÁRIO --> "+userId);
+                DatabaseConection db = new DatabaseConection();
+                ResultSet rs = db.read("SELECT id, first_name, last_name, email FROM MOCK_DATA WHERE id='"+userId+"';");
+                try {
+                    //STEP 5: Extract data from result set
+                    while(rs.next()){
+                        //Retrieve by column name
+                        int id  = rs.getInt("id");
+                        String first = rs.getString("first_name");
+                        String last = rs.getString("last_name");
+                        String email = rs.getString("email");
+
+                        out.printf("{\"userid\": \"%s\", \"fist_name\": \"%s\","
+                                + "\"last_name\": \"%s\",\"email\": \"%s\"}", id, first, last, email);
+
+
+                      
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(MatcherAPI.class.getName()).log(Level.SEVERE, null, ex);
+                }finally{
+                     rs.close();
+                }
+            }
+            
+            //DatabaseConection.runMigrations();
+        } catch (Exception e) {}
     }
 
 

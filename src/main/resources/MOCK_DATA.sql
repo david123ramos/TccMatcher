@@ -3,13 +3,13 @@ use tccmatcher;
 
 DROP TABLE IF EXISTS MOCK_DATA;
 
-create table MOCK_DATA (
-    id int,
-    first_name varchar(255),
-    last_name varchar(255),
-    email varchar(255),
-    gender varchar(255),
-    psw varchar(255),
+create table MOCK_DATA ( 
+    id INT NOT NULL,
+    first_name VARCHAR(200) NOT NULL,
+    last_name VARCHAR(200) NOT NULL,
+    email VARCHAR(200) NOT NULL,
+    gender VARCHAR(100) NOT NULL,
+    psw VARCHAR(100) NOT NULL
 );
 
 insert into MOCK_DATA (id, first_name, last_name, email, gender, psw) values (1, 'Hephzibah', 'Caulket', 'hcaulket0@over-blog.com', 'Female', 'scXwqut');
