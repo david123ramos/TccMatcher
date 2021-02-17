@@ -3,6 +3,7 @@ package servlet;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,9 +21,22 @@ public class MatcherAPI extends HttpServlet {
 
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, FileNotFoundException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, FileNotFoundException, UnsupportedEncodingException {
         response.setContentType("application/json");
         response.addHeader("Access-Control-Allow-Origin", "*");
+        
+        
+        try {
+            DatabaseConection.runMigrations();
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(MatcherAPI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(MatcherAPI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MatcherAPI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         
         try ( PrintWriter out = response.getWriter()) {
 
