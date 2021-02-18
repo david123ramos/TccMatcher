@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS tccmatcher;
-use tccmatcher;
+--CREATE DATABASE IF NOT EXISTS tccmatcher;
+--use tccmatcher;
 
 DROP TABLE IF EXISTS MOCK_DATA;
 

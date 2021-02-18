@@ -65,7 +65,8 @@ public class DatabaseConection implements DatabaseInterface{
             Connection conn = DatabaseConection.getConnection();
             
             Statement stmt = conn.createStatement();
-            stmt.executeQuery("use tccmatcher");
+            //usado apenas no ambiente de testes;
+            //stmt.executeQuery("use tccmatcher");
             return stmt.executeQuery(query);
         } catch (URISyntaxException ex) {
             Logger.getLogger(DatabaseConection.class.getName()).log(Level.SEVERE, null, ex);
