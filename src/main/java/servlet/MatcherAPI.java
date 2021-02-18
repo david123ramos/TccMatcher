@@ -25,19 +25,6 @@ public class MatcherAPI extends HttpServlet {
         response.setContentType("application/json");
         response.addHeader("Access-Control-Allow-Origin", "*");
         
-        
-        try {
-            DatabaseConection.runMigrations();
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(MatcherAPI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(MatcherAPI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MatcherAPI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-        
         try ( PrintWriter out = response.getWriter()) {
 
             out.println("{status: '200', token:'AKSJDA98012IJDNAO8127HDABS',  }");
