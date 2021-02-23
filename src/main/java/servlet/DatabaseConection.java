@@ -21,7 +21,7 @@ public class DatabaseConection implements DatabaseInterface{
     
     //  Database credentials on test server (Docker)
     static final String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
-    static final String DB_URL = "jdbc:mariadb://localhost:3306/";
+    static final String DB_URL = "jdbc:mariadb://172.17.0.2:3306/";
     static final String USER = "root";
     static final String PASS = "admin";
     
@@ -32,15 +32,15 @@ public class DatabaseConection implements DatabaseInterface{
 
         //STEP 3: Open a connection
         System.out.println("Connecting to a selected database...");
-
         URI jdbUri = new URI(System.getenv("JAWSDB_MARIA_URL"));
 
-        String username = jdbUri.getUserInfo().split(":")[0];
+       String username = jdbUri.getUserInfo().split(":")[0];
         String password = jdbUri.getUserInfo().split(":")[1];
-        String port = String.valueOf(jdbUri.getPort());
+       String port = String.valueOf(jdbUri.getPort());
         String jdbUrl = "jdbc:mysql://" + jdbUri.getHost() + ":" + port + jdbUri.getPath();
 
         return DriverManager.getConnection(jdbUrl, username, password);
+//      return DriverManager.getConnection(DB_URL, USER, PASS);
     }
     
     public static void runMigrations() throws URISyntaxException, SQLException, FileNotFoundException, ClassNotFoundException, UnsupportedEncodingException{
@@ -79,8 +79,22 @@ public class DatabaseConection implements DatabaseInterface{
     }
 
     @Override
-    public void update(String query) {
-        
+    public int update(String query) {
+         try {
+            Connection conn = DatabaseConection.getConnection();
+            
+            Statement stmt = conn.createStatement();
+            
+            return stmt.executeUpdate(query);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(DatabaseConection.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseConection.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DatabaseConection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+         return 1;
     }
 
     @Override

@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -56,7 +55,6 @@ public class MatcherAPI extends HttpServlet {
                 }
             }
             
-            //DatabaseConection.runMigrations();
         } catch (Exception e) {}
     }
 

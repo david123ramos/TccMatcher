@@ -2,3 +2,8 @@ launch\Main.class
 servlet\DatabaseInterface.class
 servlet\MatcherAPI.class
 servlet\DatabaseConection.class
+entities\SignUpBean.class
+servlet\SignUpServlet.class
+servlet\SignInServlet.class
+entities\User.class
+entities\SignInBean.class
