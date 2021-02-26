@@ -2,6 +2,8 @@ package servlet;
 
 import com.google.gson.Gson;
 import entities.SignInBean;
+import entities.User;
+import implementations.UserRepositoryImpl;
 import org.apache.catalina.filters.ExpiresFilter;
 
 import java.io.BufferedReader;
@@ -35,33 +37,23 @@ public class SignInServlet extends HttpServlet {
  
         SignInBean s = gson.fromJson(reader, SignInBean.class);
         PrintWriter out = response.getWriter();
-        DatabaseConection db = new DatabaseConection();
-         
-        ResultSet rs = db.read("SELECT id, first_name, last_name, email FROM MOCK_DATA WHERE email='"+s.getEmail()+"' and psw='"+s.getPassword()+"';");
+        UserRepositoryImpl repository = new UserRepositoryImpl();
+
         try {
-            //STEP 5: Extract data from result set
-            while(rs.next()){
-                //Retrieve by column name
-                int id  = rs.getInt("id");
-                String first = rs.getString("first_name");
-                String last = rs.getString("last_name");
-                String email = rs.getString("email");
+            User foundUser = repository.get(s);
 
-                out.printf("{\"userid\": \"%s\", \"fist_name\": \"%s\","
-                        + "\"last_name\": \"%s\",\"email\": \"%s\", \"authorized\": \"%s\"}", id, first, last, email, true);
+            if(foundUser != null) {
+                out.write(gson.toJson(foundUser));
 
-
-
+            }else {
+                out.write("{\"status\": \"404\", \"msg\": \"User not found\" }");
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(MatcherAPI.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-            try {
-                rs.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(SignInServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
+
     }
     
      @Override
@@ -71,8 +63,7 @@ public class SignInServlet extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
 
             out.println("{status: '200', token:'AKSJDA98012IJDNAO8127HDABS',  }");
-            
-            
+
         } catch (Exception e) {}
     }
 

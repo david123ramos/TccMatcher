@@ -1,10 +1,11 @@
 launch\Main.class
 servlet\DatabaseInterface.class
 servlet\MatcherAPI.class
+implementations\UserRepositoryImpl.class
+launch\UserRepository.class
 servlet\DatabaseConection.class
 entities\SignUpBean.class
 servlet\SignUpServlet.class
-entities\UserRepository.class
 servlet\SignInServlet.class
 entities\User.class
 entities\SignInBean.class
