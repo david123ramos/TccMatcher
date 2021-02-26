@@ -36,9 +36,11 @@ public class SignUpServlet extends HttpServlet{
         DatabaseConection db = new DatabaseConection();
          
         
-        //TODO: Mudar a geraçao do ID;
+        //TODO: Mudar a geraï¿½ao do ID;
+        
+        //TODO verficar se o comando ï¿½ alter table.
         int res = db.update("INSERT INTO MOCK_DATA (id, first_name, last_name"
-        + ", email, gender, psw) VALUES(''"+s.toString().hashCode()+"', "+s.getFirstName()+"', '"+s.getLastName()+"',"
+        + ", email, gender, psw) VALUES('"+s.toString().hashCode()+"', '"+s.getFirstName()+"', '"+s.getLastName()+"',"
                 + " '"+s.getEmail()+"','"+s.getGender()+"','"+s.getPassword()+"')");
         
         if(res > 0) {
@@ -52,16 +54,15 @@ public class SignUpServlet extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, FileNotFoundException, UnsupportedEncodingException {
         
         
-        try {
-            DatabaseConection.runMigrations();
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(SignUpServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(SignUpServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SignUpServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+//        try {
+//            DatabaseConection.runMigrations();
+//        } catch (URISyntaxException ex) {
+//            Logger.getLogger(SignUpServlet.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(SignUpServlet.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(SignUpServlet.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         
         
         response.setContentType("application/json");
