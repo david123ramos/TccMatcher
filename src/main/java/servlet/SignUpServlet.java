@@ -23,9 +23,8 @@ public class SignUpServlet extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-        response.setContentType("application/json");
-        response.addHeader("Access-Control-Allow-Origin", "*");
+
+        setHeaders(response);
         
         Gson gson = new Gson();
 
@@ -36,15 +35,17 @@ public class SignUpServlet extends HttpServlet{
         DatabaseConection db = new DatabaseConection();
          
         
-        //TODO: Mudar a gera�ao do ID;
+        //TODO: Mudar a geração do ID;
         
-        //TODO verficar se o comando � alter table.
+        //TODO verficar se o comando alter table.
         int res = db.update("INSERT INTO MOCK_DATA (id, first_name, last_name"
         + ", email, gender, psw) VALUES('"+s.toString().hashCode()+"', '"+s.getFirstName()+"', '"+s.getLastName()+"',"
                 + " '"+s.getEmail()+"','"+s.getGender()+"','"+s.getPassword()+"')");
-        
+
+        System.out.println("Consulta terminou");
+
         if(res > 0) {
-            out.printf("{\"status\": %s}",res == 0);
+            out.printf("{\"status\": %s}",res);
             out.flush();
             
         }
@@ -63,10 +64,9 @@ public class SignUpServlet extends HttpServlet{
 //        } catch (ClassNotFoundException ex) {
 //            Logger.getLogger(SignUpServlet.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        
-        
-        response.setContentType("application/json");
-        response.addHeader("Access-Control-Allow-Origin", "*");
+
+
+         setHeaders(response);
         
         try ( PrintWriter out = response.getWriter()) {
 
@@ -74,5 +74,11 @@ public class SignUpServlet extends HttpServlet{
             
             
         } catch (Exception e) {}
+    }
+
+    private void setHeaders(HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length, X-Requested-With, Accept");
     }
 }

@@ -2,6 +2,8 @@ package servlet;
 
 import com.google.gson.Gson;
 import entities.SignInBean;
+import org.apache.catalina.filters.ExpiresFilter;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -25,7 +27,7 @@ public class SignInServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         response.setContentType("application/json");
-        response.addHeader("Access-Control-Allow-Origin", "*");
+        setHeaders(response);
         
         Gson gson = new Gson();
 
@@ -64,8 +66,7 @@ public class SignInServlet extends HttpServlet {
     
      @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, FileNotFoundException, UnsupportedEncodingException {
-        response.setContentType("application/json");
-        response.addHeader("Access-Control-Allow-Origin", "*");
+        setHeaders(response);
         
         try ( PrintWriter out = response.getWriter()) {
 
@@ -73,5 +74,12 @@ public class SignInServlet extends HttpServlet {
             
             
         } catch (Exception e) {}
+    }
+
+
+    private void setHeaders(HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length, X-Requested-With, Accept");
     }
 }
