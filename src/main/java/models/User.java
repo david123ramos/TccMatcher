@@ -1,4 +1,4 @@
-package entities;
+package models;
 
 import java.io.Serializable;
 
@@ -10,6 +10,7 @@ public class User implements Serializable{
     private String gender;
     private String email;
     private String password;
+    private String token;
 
     public User(){};
 
@@ -62,6 +63,10 @@ public class User implements Serializable{
         this.password = password;
     }
 
+    public String getToken() {return token;}
+
+    public void setToken(String token) {this.token = token;}
+
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj); 
@@ -76,4 +81,6 @@ public class User implements Serializable{
     public int hashCode() {
         return super.hashCode(); 
     }
+
+
 }

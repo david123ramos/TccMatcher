@@ -1,70 +1,79 @@
-package servlet;
+package servlets;
 
 import com.google.gson.Gson;
-import entities.User;
+import jwt.JwtController;
+import models.SignInBean;
+import models.User;
 import implementations.UserRepositoryImpl;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "MatcherAPISignUp", urlPatterns = {"/MatcherAPI/signup"})
-public class SignUpServlet extends HttpServlet{
+@WebServlet(name = "MatcherAPIAcess", urlPatterns = {"/MatcherAPI/signin"})
+public class SignInServlet extends HttpServlet {
     
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        
+        response.setContentType("application/json");
         setHeaders(response);
-        PrintWriter out = response.getWriter();
         
         Gson gson = new Gson();
+
         BufferedReader reader = request.getReader();
+        SignInBean s = gson.fromJson(reader, SignInBean.class);
 
-        User userBean = gson.fromJson(reader,  User.class);
-        UserRepositoryImpl repository = new UserRepositoryImpl();
+        try {
 
-        int res = repository.add(userBean);
+            PrintWriter out = response.getWriter();
+            UserRepositoryImpl repository = new UserRepositoryImpl();
 
-        System.out.println("Consulta terminou");
+            try {
+                User foundUser = repository.get(s);
 
-        if(res > 0) {
-            out.printf("{\"status\": %s}",res);
-            out.flush();
+                if(foundUser != null) {
+                    foundUser.setToken(JwtController.generate(foundUser.getEmail()));
+                    out.write(gson.toJson(foundUser));
 
+                }else {
+                    response.setStatus(404);
+                    out.write("{\"msg\": \"User not found\" }");
+                }
+
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(405, "Unauthorized: Invalid Token");
         }
+
     }
     
      @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, FileNotFoundException, UnsupportedEncodingException {
-        
-        
-//        try {
-//            DatabaseConection.runMigrations();
-//        } catch (URISyntaxException ex) {
-//            Logger.getLogger(SignUpServlet.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(SignUpServlet.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(SignUpServlet.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
-
-         setHeaders(response);
+        setHeaders(response);
         
         try ( PrintWriter out = response.getWriter()) {
 
             out.println("{status: '200', token:'AKSJDA98012IJDNAO8127HDABS',  }");
-            
-            
+
         } catch (Exception e) {}
     }
+
 
     private void setHeaders(HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");

@@ -1,4 +1,4 @@
-package servlet;
+package persistence;
 
 import java.sql.ResultSet;
 
