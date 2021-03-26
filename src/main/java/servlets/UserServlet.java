@@ -14,43 +14,43 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "MatcherAPISignUp", urlPatterns = {"/MatcherAPI/signup"})
-public class SignUpServlet extends HttpServlet{
+
+@WebServlet(name = "MatcherAPIUser", urlPatterns = {"/MatcherAPI/user"})
+public class UserServlet extends HttpServlet{
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        setHeaders(response);
-        PrintWriter out = response.getWriter();
-        
-        Gson gson = new Gson();
-        BufferedReader reader = request.getReader();
-
-        User userBean = gson.fromJson(reader,  User.class);
-
-        UserRepositoryImpl repository = new UserRepositoryImpl();
-
-        User res = repository.add(userBean);
-        System.out.println("Consulta terminou");
-
-        if(res != null) {
-            out.write(gson.toJson(res));
-        }else {
-            response.sendError(500, "Intern Error");
-        }
 
     }
-    
-     @Override
+
+
+
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPut(req, resp);
+        setHeaders(resp);
+        PrintWriter out = resp.getWriter();
+        Gson gson = new Gson();
+        BufferedReader reader = req.getReader();
+        User userBean = gson.fromJson(reader,  User.class);
+        System.out.println(userBean.getInstitution());
+        System.out.println(userBean.getPreferenceList().get(0).getDescription());
+        UserRepositoryImpl repository = new UserRepositoryImpl();
+        repository.addPreferences(userBean);
+    }
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, FileNotFoundException, UnsupportedEncodingException {
 
-         setHeaders(response);
-        
+        setHeaders(response);
+
         try ( PrintWriter out = response.getWriter()) {
 
-            out.println("{status: '200', token:'AKSJDA98012IJDNAO8127HDABS',  }");
-            
-            
+            out.println("{\"status\": \"200\", \"token\":\"AKSJDA98012IJDNAO8127HDABS\"}");
+
+
         } catch (Exception e) {}
     }
 

@@ -42,6 +42,7 @@ public class SignInServlet extends HttpServlet {
                 User foundUser = repository.get(s);
 
                 if(foundUser != null) {
+                    System.out.println("Usuário encontrado: "+foundUser.getFirstName());
                     foundUser.setToken(JwtController.generate(foundUser.getEmail()));
                     out.write(gson.toJson(foundUser));
 
@@ -51,9 +52,7 @@ public class SignInServlet extends HttpServlet {
                 }
 
 
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            } catch (SQLException throwables) { throwables.printStackTrace(); }
 
 
         } catch (Exception e) {
@@ -73,6 +72,7 @@ public class SignInServlet extends HttpServlet {
 
         } catch (Exception e) {}
     }
+
 
 
     private void setHeaders(HttpServletResponse response) {

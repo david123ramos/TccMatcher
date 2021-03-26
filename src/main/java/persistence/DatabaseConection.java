@@ -41,7 +41,7 @@ public class DatabaseConection implements DatabaseInterface{
         }
         Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
         System.out.println("Connection established......");
-        runMigrations(conn);
+        //runMigrations(conn);
         return conn;
     }
 

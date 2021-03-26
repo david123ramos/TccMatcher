@@ -15,6 +15,16 @@ create table IF NOT EXISTS MOCK_DATA (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS PREFERENCES(
+    id INT not null  auto_increment,
+    description VARCHAR(200) NOT NULL,
+    id_user INT,
+    created_at datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    updated_at timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+    PRIMARY KEY (id),
+    CONSTRAINT fk_personid FOREIGN KEY (id_user) References MOCK_DATA(id)
+);
+
 INSERT INTO MOCK_DATA (first_name, last_name, email, gender, psw)
 VALUES
 ('Hephzibah', 'Caulket', 'hcaulket0@over-blog.com', 'Female', 'scXwqut'),
@@ -116,4 +126,15 @@ VALUES
 ('Bobby', 'Surcombe', 'bsurcombe2o@sciencedirect.com', 'Bigender', 'HBVLg5'),
 ('Kippie', 'Corn', 'kcorn2p@uol.com.br', 'Genderfluid', 'ijONiWlEmvqo'),
 ('Brion', 'Ohlsen', 'bohlsen2q@angelfire.com', 'Agender', 'x3LHrwSs'),
-( 'Clio', 'Huniwall', 'chuniwall2r@webeden.co.uk', 'Genderfluid', 'XmGO0W8jBQ6');
+( 'Clio', 'Huniwall', 'chuniwall2r@webeden.co.uk', 'Genderfluid', 'XmGO0W8jBQ6'),
+('Hebe', 'Luz', 'hlss@a.recife.ifpe.edu.br', 'undefined' , 'hebe123' );
+
+-- {
+--     id: "@id",
+--     token: "@token",
+--     institution: "@institution",
+--     preferences: [
+--         {description: "@description"},
+--         {description: "@description"},
+--     ]
+-- }

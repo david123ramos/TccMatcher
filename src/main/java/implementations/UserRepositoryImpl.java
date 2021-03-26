@@ -84,8 +84,9 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User add(User user) {
         String insertStatement = "INSERT INTO MOCK_DATA (first_name, last_name"
-                + ", email, gender, psw) VALUES('{0}', '{1}', '{2}', '{3}','{4}')";
+                + ", email, gender, psw) VALUES(''{0}'', ''{1}'', ''{2}'', ''{3}'',''{4}'')";
         //TODO: Mudar a geração do ID;
+
         Object[] params = new Object[] {user.getFirstName(), user.getLastName(),
         user.getEmail(), user.getGender(), user.getPassword()};
         String sql = MessageFormat.format(insertStatement, params);
@@ -95,31 +96,39 @@ public class UserRepositoryImpl implements UserRepository {
         int res = db.update(sql);
 
         if(res > 0) {
-               SignInBean b = new SignInBean();
-               b.setEmail(user.getEmail());
-               b.setPassword(user.getPassword());
-               try{
-                    User response = this.get(b);
-                    response.setToken(JwtController.generate(response.getEmail()));
-                    return response;
+           SignInBean b = new SignInBean();
+           b.setEmail(user.getEmail());
+           b.setPassword(user.getPassword());
+           try{
+                User response = this.get(b);
+                response.setToken(JwtController.generate(response.getEmail()));
+                return response;
 
-               }catch (Exception s) {
+           }catch (Exception s) {
 
-               }
-
+           }
         }
 
         return null;
-
     }
 
     @Override
-    public void update(User user) {
-
-    }
+    public void update(User user) {}
 
     @Override
-    public void remove(User user) {
+    public void remove(User user) {}
+
+    @Override
+    public void addPreferences(User u) {
+        StringBuilder sttm =  new StringBuilder("INSERT INTO PREFERENCES (description, id_user) VALUES ");
+
+        u.getPreferenceList().stream().forEach(el -> {
+            String aux =  "('"+el.getDescription()+"', '"+u.getId()+"'),";
+            sttm.append(aux);
+        });
+
+        sttm.append(";");
+        System.out.printf("Executing query: %s", sttm.toString());
 
     }
 }

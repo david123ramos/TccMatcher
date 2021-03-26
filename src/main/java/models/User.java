@@ -1,15 +1,18 @@
 package models;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 public class User implements Serializable{
     private long id;
     private String firstName;
+    private String institution;
     private String lastName;
     private String gender;
     private String email;
     private String password;
+    private List<Preference> preferenceList;
     private String token;
 
     public User(){};
@@ -66,6 +69,22 @@ public class User implements Serializable{
     public String getToken() {return token;}
 
     public void setToken(String token) {this.token = token;}
+
+    public List<Preference> getPreferenceList() {
+        return preferenceList;
+    }
+
+    public void setPreferenceList(List<Preference> preferenceList) {
+        this.preferenceList = preferenceList;
+    }
+
+    public String getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(String institution) {
+        this.institution = institution;
+    }
 
     @Override
     public boolean equals(Object obj) {
