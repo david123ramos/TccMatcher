@@ -8,6 +8,9 @@ import persistence.DatabaseConection;
 import servlets.MatcherAPI;
 import servlets.SignInServlet;
 
+import java.net.ConnectException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
@@ -85,7 +88,7 @@ public class UserRepositoryImpl implements UserRepository {
     public User add(User user) {
         String insertStatement = "INSERT INTO MOCK_DATA (first_name, last_name"
                 + ", email, gender, psw) VALUES(''{0}'', ''{1}'', ''{2}'', ''{3}'',''{4}'')";
-        //TODO: Mudar a geração do ID;
+        //TODO: Mudar a geracao do ID;
 
         Object[] params = new Object[] {user.getFirstName(), user.getLastName(),
         user.getEmail(), user.getGender(), user.getPassword()};
@@ -113,7 +116,19 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void update(User user) {}
+    public void update(User user) {
+    	StringBuilder sttm =  new StringBuilder("UPDATE MOCK_DATA SET first_name= '"+user.getFirstName()+"', "
+    			+"last_name= '"+user.getLastName()+"', "
+    			+"email= '"+user.getEmail()+"', "
+    			+"gender= '"+user.getGender()+"', "
+    			+"psw= '"+user.getPassword()+"', "
+    			+"institution= '"+user.getInstitution()+"' WHERE id='"+user.getId()+"';");
+    	
+    	System.out.printf("Executing query: %s \n",sttm.toString());
+    	
+    	//TODO salvar no banco, e verificas se so campos est�o null
+    	
+    }
 
     @Override
     public void remove(User user) {}
@@ -121,14 +136,18 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void addPreferences(User u) {
         StringBuilder sttm =  new StringBuilder("INSERT INTO PREFERENCES (description, id_user) VALUES ");
-
+        
         u.getPreferenceList().stream().forEach(el -> {
+        	
             String aux =  "('"+el.getDescription()+"', '"+u.getId()+"'),";
             sttm.append(aux);
         });
 
+        sttm.deleteCharAt(sttm.length()-1);
         sttm.append(";");
-        System.out.printf("Executing query: %s", sttm.toString());
+        System.out.printf("Executing query: %s \n", sttm.toString());
+        
+        //TODO Salvar no banco
 
     }
 }

@@ -1,6 +1,7 @@
 package models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -12,7 +13,7 @@ public class User implements Serializable{
     private String gender;
     private String email;
     private String password;
-    private List<Preference> preferenceList;
+    private List<Preference> preferenceList = new ArrayList<Preference>();
     private String token;
 
     public User(){};

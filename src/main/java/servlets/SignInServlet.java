@@ -42,7 +42,7 @@ public class SignInServlet extends HttpServlet {
                 User foundUser = repository.get(s);
 
                 if(foundUser != null) {
-                    System.out.println("Usuário encontrado: "+foundUser.getFirstName());
+                    System.out.println("Usuario encontrado: "+foundUser.getFirstName());
                     foundUser.setToken(JwtController.generate(foundUser.getEmail()));
                     out.write(gson.toJson(foundUser));
 

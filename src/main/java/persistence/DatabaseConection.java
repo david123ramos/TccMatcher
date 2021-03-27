@@ -17,7 +17,8 @@ public class DatabaseConection implements DatabaseInterface{
     
     //  Database credentials on test server (Docker)
     static final String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
-    static final String DB_URL = "jdbc:mariadb://127.0.0.1:3306/MOCK_DATA";
+    //static final String DB_URL = "jdbc:mariadb://127.0.0.1:3306/MOCK_DATA";
+    static final String DB_URL = "jdbc:mariadb://6f16cb6d481e.ngrok.io/MOCK_DATA";
     static final String USER = "root";
     static final String PASS = "admin";
     

@@ -29,16 +29,17 @@ public class UserServlet extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
+        //super.doPut(req, resp);
         setHeaders(resp);
         PrintWriter out = resp.getWriter();
         Gson gson = new Gson();
         BufferedReader reader = req.getReader();
         User userBean = gson.fromJson(reader,  User.class);
         System.out.println(userBean.getInstitution());
-        System.out.println(userBean.getPreferenceList().get(0).getDescription());
+        System.out.println(userBean.getPreferenceList().size()); // TODO
         UserRepositoryImpl repository = new UserRepositoryImpl();
-        repository.addPreferences(userBean);
+        repository.addPreferences(userBean); //TODO
+        repository.update(userBean); // TODO
     }
 
     @Override
