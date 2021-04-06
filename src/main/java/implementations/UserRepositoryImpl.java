@@ -8,9 +8,6 @@ import persistence.DatabaseConection;
 import servlets.MatcherAPI;
 import servlets.SignInServlet;
 
-import java.net.ConnectException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
@@ -24,7 +21,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User get(SignInBean bean) throws SQLException {
 
-        ResultSet rs = db.read("SELECT id, first_name, last_name, email FROM MOCK_DATA WHERE " +
+        ResultSet rs = db.read("SELECT id, first_name, last_name, email, institution FROM MOCK_DATA WHERE " +
                 "email='"+bean.getEmail()+"' and psw='"+bean.getPassword()+"';");
 
         if(rs != null) {
@@ -117,17 +114,17 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void update(User user) {
-    	StringBuilder sttm =  new StringBuilder("UPDATE MOCK_DATA SET first_name= '"+user.getFirstName()+"', "
-    			+"last_name= '"+user.getLastName()+"', "
-    			+"email= '"+user.getEmail()+"', "
-    			+"gender= '"+user.getGender()+"', "
-    			+"psw= '"+user.getPassword()+"', "
-    			+"institution= '"+user.getInstitution()+"' WHERE id='"+user.getId()+"';");
+    	StringBuilder sttm =  new StringBuilder("UPDATE MOCK_DATA SET" +
+                " institution= '"+user.getInstitution()+"' WHERE id='"+user.getId()+"';");
+
     	
     	System.out.printf("Executing query: %s \n",sttm.toString());
-    	
-    	//TODO salvar no banco, e verificas se so campos estão null
-    	
+
+        int res = db.update(sttm.toString());
+
+        if(res > 0) {
+            System.out.println("Success!");
+        }
     }
 
     @Override
@@ -138,7 +135,6 @@ public class UserRepositoryImpl implements UserRepository {
         StringBuilder sttm =  new StringBuilder("INSERT INTO PREFERENCES (description, id_user) VALUES ");
         
         u.getPreferenceList().stream().forEach(el -> {
-        	
             String aux =  "('"+el.getDescription()+"', '"+u.getId()+"'),";
             sttm.append(aux);
         });
@@ -146,8 +142,11 @@ public class UserRepositoryImpl implements UserRepository {
         sttm.deleteCharAt(sttm.length()-1);
         sttm.append(";");
         System.out.printf("Executing query: %s \n", sttm.toString());
-        
-        //TODO Salvar no banco
 
+        int res = db.update(sttm.toString());
+
+        if(res > 0) {
+            System.out.println("Success!");
+        }
     }
 }

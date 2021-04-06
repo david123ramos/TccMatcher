@@ -1,5 +1,5 @@
---CREATE DATABASE IF NOT EXISTS tccmatcher;
---use tccmatcher;
+CREATE DATABASE IF NOT EXISTS tccmatcher;
+use tccmatcher;
 
 DROP TABLE IF EXISTS MOCK_DATA;
 
@@ -24,9 +24,35 @@ CREATE TABLE IF NOT EXISTS PREFERENCES(
     id_user INT,
     created_at datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     updated_at timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+
     PRIMARY KEY (id),
     CONSTRAINT fk_personid FOREIGN KEY (id_user) References MOCK_DATA(id)
 );
+
+
+CREATE TABLE IF NOT EXISTS TCC(
+    id INT not null  auto_increment,
+    title VARCHAR(200) NOT NULL,
+    description VARCHAR(200) NOT NULL,
+    id_user INT,
+    created_at datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    updated_at timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (id),
+    CONSTRAINT fk_personid_tcc FOREIGN KEY (id_user) References MOCK_DATA(id)
+);
+
+CREATE TABLE IF NOT EXISTS KEYWORD(
+      id INT not null  auto_increment,
+      title VARCHAR(200) NOT NULL,
+      id_tcc INT,
+      created_at datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+      updated_at timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+
+      PRIMARY KEY (id),
+      CONSTRAINT fk_tccid FOREIGN KEY (id_tcc) References TCC(id)
+);
+
 
 INSERT INTO MOCK_DATA (first_name, last_name, email, gender, psw)
 VALUES

@@ -19,10 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserServlet extends HttpServlet{
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-
-    }
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {}
 
 
 
@@ -36,10 +33,11 @@ public class UserServlet extends HttpServlet{
         BufferedReader reader = req.getReader();
         User userBean = gson.fromJson(reader,  User.class);
         System.out.println(userBean.getInstitution());
-        System.out.println(userBean.getPreferenceList().size()); // TODO
+        System.out.println(userBean.getPreferenceList().size());
+
         UserRepositoryImpl repository = new UserRepositoryImpl();
-        repository.addPreferences(userBean); //TODO
-        repository.update(userBean); // TODO
+        repository.addPreferences(userBean);
+        repository.update(userBean);
     }
 
     @Override
