@@ -33,7 +33,13 @@ public class UserRepositoryImpl implements UserRepository {
                     String first = rs.getString("first_name");
                     String last = rs.getString("last_name");
                     String email = rs.getString("email");
-                    return new User(id, first, last, email);
+                    String institution = rs.getString("institution");
+                    User response = new User(id, first, last, email);
+                    PreferencesRepositoryImpl repository = new PreferencesRepositoryImpl();
+
+                    response.setInstitution(institution);
+
+                    return response;
                 }
 
             } catch (SQLException ex) {
@@ -55,27 +61,27 @@ public class UserRepositoryImpl implements UserRepository {
 
         ResultSet rs = db.read("SELECT id, first_name, last_name, email FROM MOCK_DATA WHERE id='"+id+"';");
 
-        if(rs != null) {
+            if(rs != null) {
 
-            try {
-
-                while(rs.next()) {
-
-                    String first = rs.getString("first_name");
-                    String last = rs.getString("last_name");
-                    String email = rs.getString("email");
-                    return new User(id, first, last, email);
-                }
-
-            } catch (SQLException ex) {
-                Logger.getLogger(MatcherAPI.class.getName()).log(Level.SEVERE, null, ex);
-            }finally{
                 try {
-                    rs.close();
+
+                    while(rs.next()) {
+
+                        String first = rs.getString("first_name");
+                        String last = rs.getString("last_name");
+                        String email = rs.getString("email");
+                        return new User(id, first, last, email);
+                    }
+
                 } catch (SQLException ex) {
-                    Logger.getLogger(SignInServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MatcherAPI.class.getName()).log(Level.SEVERE, null, ex);
+                }finally{
+                    try {
+                        rs.close();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(SignInServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-            }
         }
 
         return null;

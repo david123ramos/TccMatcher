@@ -1,6 +1,7 @@
 package servlets;
 
 import com.google.gson.Gson;
+import implementations.PreferencesRepositoryImpl;
 import models.User;
 import implementations.UserRepositoryImpl;
 import java.io.BufferedReader;
@@ -36,7 +37,8 @@ public class UserServlet extends HttpServlet{
         System.out.println(userBean.getPreferenceList().size());
 
         UserRepositoryImpl repository = new UserRepositoryImpl();
-        repository.addPreferences(userBean);
+        PreferencesRepositoryImpl preferencesRepository = new PreferencesRepositoryImpl();
+        preferencesRepository.add(userBean);
         repository.update(userBean);
     }
 

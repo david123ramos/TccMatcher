@@ -69,7 +69,7 @@ public class DatabaseConection implements DatabaseInterface{
 
     @Override
     public void create(String query) {
-       
+        
     }
 
     @Override
@@ -95,7 +95,7 @@ public class DatabaseConection implements DatabaseInterface{
 
     @Override
     public int update(String query) {
-         try {
+        try {
             Connection conn = DatabaseConection.getConnection();
             
             Statement stmt = conn.createStatement();
@@ -108,8 +108,8 @@ public class DatabaseConection implements DatabaseInterface{
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DatabaseConection.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException e) {
-             e.printStackTrace();
-         }
+            e.printStackTrace();
+        }
 
         return 1;
     }

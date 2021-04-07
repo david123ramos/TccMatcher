@@ -59,6 +59,40 @@ public class TccRepositoryImpl implements TccRepository {
 
     @Override
     public Tcc get(long id) throws SQLException {
+
+        ResultSet rs = db.read("SELECT id, title, description, id_user FROM TCC WHERE " +
+                "id='"+id+"';");
+
+        if(rs != null) {
+
+            try {
+
+                while(rs.next()) {
+                    String idm = rs.getString("id");
+                    String title = rs.getString("title");
+                    String desc = rs.getString("description");
+                    String id_user = rs.getString("id_user");
+                    List<Keyword> tccKeyWords = this.getKeywordList(idm);
+
+
+                    Tcc tcc = new Tcc(title, desc);
+                    tcc.setKeywords(tccKeyWords);
+                    tcc.setId(Long.parseLong(idm));
+                    tcc.setId_user(id_user);
+                    return tcc;
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(MatcherAPI.class.getName()).log(Level.SEVERE, null, ex);
+            }finally{
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(SignInServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
         return null;
     }
 

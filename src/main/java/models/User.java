@@ -15,6 +15,8 @@ public class User implements Serializable{
     private String password;
     private List<Preference> preferenceList = new ArrayList<Preference>();
     private String token;
+    private Tcc tcc;
+
 
     public User(){};
 
@@ -101,6 +103,15 @@ public class User implements Serializable{
     public int hashCode() {
         return super.hashCode(); 
     }
+
+    public Tcc getTcc() {
+        return tcc;
+    }
+
+    public void setTcc(Tcc tcc) {
+        this.tcc = tcc;
+    }
+
 
 
 }
